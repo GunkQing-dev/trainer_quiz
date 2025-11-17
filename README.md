@@ -1,16 +1,44 @@
-# trainer_quiz
+# Find Your Trainer Type
 
-A new Flutter project.
+A Flutter web experience that turns Dark Type Darsh's "DTD Guide III" trainer quiz into an interactive personality check for VGC enthusiasts. It's a fan-made hobby project meant for fun self-reflection - not a competitive guarantee or official endorsement.
 
-## Getting Started
+## Run It Locally
 
-This project is a starting point for a Flutter application.
+1. **Prerequisites**
+   - Flutter 3.24 (stable) with web support enabled (`flutter config --enable-web`)
+   - Chrome/Edge (or any browser/device you plan to target)
 
-A few resources to get you started if this is your first Flutter project:
+2. **Clone & install**
+   ```bash
+   git clone https://github.com/QuervoDev/trainer_quiz.git
+   cd trainer_quiz
+   flutter pub get
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. **Run the quiz in a browser**
+   ```bash
+   flutter run -d chrome
+   ```
+   Replace `chrome` with another device ID (e.g., `edge`, `macos`, `windows`) to test elsewhere.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. **Optional: build the optimized web bundle**
+   ```bash
+   flutter build web --release
+   ```
+   The release output lands in `build/web/` and is what GitHub Pages (or any static host) should serve.
+
+## Credits & Inspiration
+
+- Quiz concept, archetype language, and original guide by **Dark Type Darsh**  
+  - Twitter/X: [@DarkTypeDarsh](https://x.com/DarkTypeDarsh)  
+  - YouTube: [Dark Type Darsh](https://www.youtube.com/@darktypedarsh?si=mKzB6XS2E3YiA0tR)  
+  - Deep dive video on trainer types: [Watch here](https://www.youtube.com/watch?v=g_QRaxbye1M&t=934s)
+
+This project just packages his public quiz into a slicker interface. All competitive insights belong to Darsh - support his work!
+
+## Questions / Feedback
+
+Have ideas or run into issues? Reach out anytime:
+
+- Twitter/X: [@GunkQing](https://x.com/GunkQing)  
+- GitHub: [QuervoDev](https://github.com/QuervoDev)
