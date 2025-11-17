@@ -4,6 +4,7 @@ import 'package:trainer_quiz/bloc/quiz_cubit.dart';
 import 'package:trainer_quiz/bloc/quiz_state.dart';
 import 'package:trainer_quiz/data/quiz_data.dart';
 import 'package:trainer_quiz/models/playstyle.dart';
+import 'package:trainer_quiz/models/question.dart';
 import 'package:trainer_quiz/widgets/question_card.dart';
 
 class QuizPage extends StatelessWidget {
@@ -127,17 +128,10 @@ class _QuizSection extends StatelessWidget {
             canGoBack: state.currentIndex > 0,
             canGoForward: state.currentIndex < totalQuestions - 1,
             canAdvance: question.answer != null,
+            isFinalQuestion: state.currentIndex == totalQuestions - 1,
             onBack: context.read<QuizCubit>().previousQuestion,
             onForward: context.read<QuizCubit>().nextQuestion,
-          ),
-          const SizedBox(height: 24),
-          Align(
-            child: FilledButton(
-              onPressed: state.allAnswered
-                  ? () => context.read<QuizCubit>().calculateResults()
-                  : null,
-              child: const Text('See Results'),
-            ),
+            onShowResults: () => context.read<QuizCubit>().calculateResults(),
           ),
           const SizedBox(height: 32),
         ],
@@ -243,16 +237,13 @@ class _ResultSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          _AnswerReviewPanel(questions: state.questions),
+          const SizedBox(height: 24),
           Row(
             children: [
               FilledButton(
                 onPressed: () => context.read<QuizCubit>().resetQuiz(),
                 child: const Text('Retake Quiz'),
-              ),
-              const SizedBox(width: 16),
-              OutlinedButton(
-                onPressed: () => context.read<QuizCubit>().startQuiz(),
-                child: const Text('Review Answers'),
               ),
             ],
           ),
@@ -410,20 +401,23 @@ class _QuestionNavigator extends StatelessWidget {
     required this.canGoBack,
     required this.canGoForward,
     required this.canAdvance,
+    required this.isFinalQuestion,
     required this.onBack,
     required this.onForward,
+    required this.onShowResults,
   });
 
   final bool canGoBack;
   final bool canGoForward;
   final bool canAdvance;
+  final bool isFinalQuestion;
   final VoidCallback onBack;
   final VoidCallback onForward;
+  final VoidCallback onShowResults;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isForwardEnabled = canGoForward && canAdvance;
     return Row(
       children: [
         OutlinedButton.icon(
@@ -435,18 +429,96 @@ class _QuestionNavigator extends StatelessWidget {
         Expanded(
           child: FilledButton.icon(
             style: FilledButton.styleFrom(
-              backgroundColor: isForwardEnabled
+              backgroundColor: canAdvance
                   ? theme.colorScheme.primary
                   : theme.colorScheme.primary.withValues(alpha: 0.4),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            onPressed: isForwardEnabled ? onForward : null,
-            icon: const Icon(Icons.chevron_right),
-            label: Text(canGoForward ? 'Next Question' : 'Final Question'),
+            onPressed: canAdvance
+                ? (isFinalQuestion ? onShowResults : onForward)
+                : null,
+            icon: Icon(isFinalQuestion ? Icons.flag : Icons.chevron_right),
+            label: Text(isFinalQuestion ? 'Show Results' : 'Next Question'),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AnswerReviewPanel extends StatelessWidget {
+  const _AnswerReviewPanel({required this.questions});
+
+  final List<Question> questions;
+
+  String _answerLabel(bool? answer) {
+    if (answer == true) return 'YES';
+    if (answer == false) return 'NO';
+    return 'Unanswered';
+  }
+
+  Color _answerColor(BuildContext context, bool? answer) {
+    if (answer == true) {
+      return Theme.of(context).colorScheme.primary;
+    }
+    if (answer == false) {
+      return Colors.redAccent;
+    }
+    return Colors.white70;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      color: const Color(0xFF1E1E2E),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Theme(
+        data: theme.copyWith(dividerColor: Colors.white12),
+        child: ExpansionTile(
+          collapsedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          collapsedIconColor: Colors.white70,
+          iconColor: theme.colorScheme.primary,
+          title: Text(
+            'Review Answers',
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Text(
+            'Expand to see every question and your response.',
+            style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
+          ),
+          children: questions
+              .map(
+                (question) => ListTile(
+                  dense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 4,
+                  ),
+                  title: Text(
+                    '${question.id}. ${question.text}',
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                  trailing: Text(
+                    _answerLabel(question.answer),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: _answerColor(context, question.answer),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      ),
     );
   }
 }
