@@ -56,90 +56,94 @@ class _ResultSectionState extends State<ResultSection> {
 
     final shareableContent = RepaintBoundary(
       key: _shareKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Your Trainer Type',
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          if (dominant != null && dominantInfo != null) ...[
+      child: Container(
+        color: theme.scaffoldBackgroundColor,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Text(
-              dominantInfo.title,
-              style: theme.textTheme.displaySmall?.copyWith(
-                color: dominant.accentColor,
+              'Your Trainer Type',
+              style: theme.textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 12),
+            if (dominant != null && dominantInfo != null) ...[
+              Text(
+                dominantInfo.title,
+                style: theme.textTheme.displaySmall?.copyWith(
+                  color: dominant.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                dominant.tagline,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: Colors.white70,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Card(
+                color: const Color(0xFF1E1E2E),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CardListSection(
+                        title: 'Strengths',
+                        items: dominantInfo.strengths,
+                        icon: Icons.bolt,
+                        iconColor: theme.colorScheme.secondary,
+                      ),
+                      const SizedBox(height: 16),
+                      CardListSection(
+                        title: 'Weaknesses',
+                        items: dominantInfo.weaknesses,
+                        icon: Icons.warning_rounded,
+                        iconColor: Colors.orangeAccent,
+                      ),
+                      const SizedBox(height: 16),
+                      CardListSection(
+                        title: 'How to grow',
+                        items: [dominantInfo.growthTip],
+                        icon: Icons.auto_graph,
+                        iconColor: theme.colorScheme.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ] else ...[
+              Text(
+                'Answer each question to unlock your personalized breakdown.',
+                style: theme.textTheme.titleMedium,
+              ),
+            ],
+            const SizedBox(height: 32),
             Text(
-              dominant.tagline,
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: Colors.white70,
+              'Scoreboard',
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 24),
-            Card(
-              color: const Color(0xFF1E1E2E),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CardListSection(
-                      title: 'Strengths',
-                      items: dominantInfo.strengths,
-                      icon: Icons.bolt,
-                      iconColor: theme.colorScheme.secondary,
-                    ),
-                    const SizedBox(height: 16),
-                    CardListSection(
-                      title: 'Weaknesses',
-                      items: dominantInfo.weaknesses,
-                      icon: Icons.warning_rounded,
-                      iconColor: Colors.orangeAccent,
-                    ),
-                    const SizedBox(height: 16),
-                    CardListSection(
-                      title: 'How to grow',
-                      items: [dominantInfo.growthTip],
-                      icon: Icons.auto_graph,
-                      iconColor: theme.colorScheme.primary,
-                    ),
-                  ],
+            const SizedBox(height: 16),
+            ...TrainerType.values.map(
+              (type) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: ScoreBar(
+                  type: type,
+                  score: state.scores[type] ?? 0,
+                  total: trainerScoreMap[type]?.length ?? 0,
                 ),
               ),
             ),
-          ] else ...[
-            Text(
-              'Answer each question to unlock your personalized breakdown.',
-              style: theme.textTheme.titleMedium,
-            ),
           ],
-          const SizedBox(height: 32),
-          Text(
-            'Scoreboard',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          ...TrainerType.values.map(
-            (type) => Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ScoreBar(
-                type: type,
-                score: state.scores[type] ?? 0,
-                total: trainerScoreMap[type]?.length ?? 0,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
 
