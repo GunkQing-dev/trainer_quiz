@@ -17,9 +17,10 @@ Future<void> shareResultImage(
   await file.writeAsBytes(bytes);
 
   final info = playstyleLibrary[dominantType];
+  const quizUrl = 'https://quervodev.github.io/trainer_quiz/';
   final caption = info == null
-      ? 'Check out my results from the Find Your Trainer Type quiz!'
-      : 'I matched ${info.title} on Find Your Trainer Type. Discover yours at https://github.com/QuervoDev/trainer_quiz';
+      ? 'Check out my results from the Find Your Trainer Type quiz! $quizUrl'
+      : 'I matched ${info.title} on Find Your Trainer Type. Discover yours at $quizUrl';
 
   await Share.shareXFiles([XFile(file.path)], text: caption);
 }

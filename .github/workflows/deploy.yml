@@ -25,7 +25,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter web release
-        run: flutter build web --release --wasm
+        run: flutter build web --release --wasm --base-href="/trainer_quiz/"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
