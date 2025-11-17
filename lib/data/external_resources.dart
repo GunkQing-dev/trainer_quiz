@@ -8,6 +8,7 @@ class ExternalResource {
     required this.color,
     this.subtitle,
     this.cta,
+    this.tintIcon = true,
   });
 
   final String label;
@@ -16,6 +17,7 @@ class ExternalResource {
   final String assetPath;
   final Color color;
   final String? cta;
+  final bool tintIcon;
 }
 
 const ExternalResource gunkTwitter = ExternalResource(
@@ -48,6 +50,7 @@ const ExternalResource darshYoutube = ExternalResource(
   url: 'https://www.youtube.com/@darktypedarsh?si=mKzB6XS2E3YiA0tR',
   assetPath: 'assets/icons/youtube_logo.svg',
   color: Color(0xFFFF0000),
+  tintIcon: false,
 );
 
 const ExternalResource darshVideo = ExternalResource(
@@ -57,6 +60,7 @@ const ExternalResource darshVideo = ExternalResource(
   assetPath: 'assets/icons/youtube_logo.svg',
   color: Color(0xFFFF4D4F),
   cta: 'Watch',
+  tintIcon: false,
 );
 
 const List<ExternalResource> maintainerResources = [gunkTwitter, gunkGithub];

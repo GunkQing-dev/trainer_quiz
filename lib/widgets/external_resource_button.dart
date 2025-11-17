@@ -23,7 +23,9 @@ class ExternalResourceButton extends StatelessWidget {
       resource.assetPath,
       width: iconSize,
       height: iconSize,
-      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      colorFilter: resource.tintIcon
+          ? const ColorFilter.mode(Colors.white, BlendMode.srcIn)
+          : null,
     );
 
     final padding = compact
