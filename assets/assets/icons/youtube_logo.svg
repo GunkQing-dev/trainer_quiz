@@ -1,0 +1,9 @@
+<svg width="28" height="20" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="cut">
+      <rect width="28" height="20" rx="3.5" fill="white"/>
+      <path d="M11 15 18.5 10 11 5v10Z" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="28" height="20" rx="3.5" fill="white" mask="url(#cut)"/>
+</svg>
