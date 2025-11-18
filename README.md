@@ -10,7 +10,7 @@ A Flutter web experience that turns Dark Type Darsh's "DTD Guide III" trainer qu
 
 2. **Clone & install**
    ```bash
-   git clone https://github.com/QuervoDev/trainer_quiz.git
+   git clone https://github.com/GunkQing-dev/trainer_quiz.git
    cd trainer_quiz
    flutter pub get
    ```
@@ -41,4 +41,4 @@ This project just packages his public quiz into a slicker interface. All competi
 Have ideas or run into issues? Reach out anytime:
 
 - Twitter/X: [@GunkQing](https://x.com/GunkQing)  
-- GitHub: [QuervoDev](https://github.com/QuervoDev)
+- GitHub: [GunkQing-dev](https://github.com/GunkQing-dev)
