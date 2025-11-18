@@ -29,9 +29,9 @@ const ExternalResource gunkTwitter = ExternalResource(
 );
 
 const ExternalResource gunkGithub = ExternalResource(
-  label: 'QuervoDev',
+  label: 'GunkQing-dev',
   subtitle: 'GitHub',
-  url: 'https://github.com/QuervoDev',
+  url: 'https://github.com/GunkQing-dev',
   assetPath: 'assets/icons/github_logo.svg',
   color: Color(0xFF2B3137),
 );
